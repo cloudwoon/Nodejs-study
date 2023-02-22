@@ -11,6 +11,17 @@ app.locals.pretty = true;//jade 템플릿이 html로 바뀔 때 자동 줄바꿈
 app.get('/topic/new', function(req,res){
     res.render('new');
 })
+
+app.get('/topic', function(req,res){
+    fs.readdir('data', function(err,files){
+        if(err){
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        }
+        //files에는 data 폴더에 담긴 파일들이 배열로 담겨있음.
+        res.render('view', {topics:files});
+    })
+})
 app.post('/topic', function(req,res){
     var title = req.body.title;
     var description = req.body.description;
